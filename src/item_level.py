@@ -55,34 +55,42 @@ def create_csv(path):
         with open(path, "w") as empty:
             pass
 
-create_csv(data_path / 'processed/item_forecast.csv')
-create_csv(data_path / 'processed/item_best_params.csv')
+    return path
+
+# forecast and model_params path
+forecast_path = create_csv(data_path / 'processed/item_forecast.csv')
+params_path = create_csv(model_path / 'item_best_params.csv')
 
 # create strata and run loop
 states = sales_master.state_id.unique()
 cats = sales_master.cat_id.unique()
 
+# track progress
+total_items = len(sales_master)
+item_counter = 0
+
 for state in states:
 
     for cat in cats:    
 
+        # sales data prep
         sales = sales_master.copy()
         logger.debug('Running data prep for category {} in state {}'.format(cat, state))
         sales = sales[(sales.state_id==state) & (sales.cat_id==cat)]
         sales.drop(columns=['item_id', 'dept_id', 'cat_id', 'store_id','state_id'], inplace=True)
 
         # filtering based on max classes
+        # lacking necessary hardware to run lgbm for all items. Simplied by grouping items
+        # based on max sales/value. 
         sales_long = pd.melt(sales, id_vars=['id'], var_name='d')
-
-        # max unique values by id
         max_val = sales_long.groupby('id').value.max()
         df = pd.DataFrame({'id':max_val.index, 'max_val':max_val.values})
         sales_max = sales.merge(df, how='left', on='id')[['id','max_val']]
         max_list = max_val.unique()
 
         # successfully created forecasts
-        successful = pd.read_csv(data_path / 'processed/item_forecast.csv', names=['i','id','forecast'])
-        best_params = pd.read_csv(data_path / 'processed/item_best_params.csv', names=['state','cat_id','i','params'], index_col=None)
+        successful = pd.read_csv(forecast_path, names=['i','id','forecast'])
+        best_params = pd.read_csv(params_path, names=['state','cat_id','i','params'], index_col=None)
 
         for i in max_list:
             filtered = sales_max[(sales_max['max_val'] == i)]['id'].to_list() # filters id's for max_value class
@@ -96,10 +104,14 @@ for state in states:
                     # if best_params exist, check for a forecast for the specific id in segment
                     if (successful.id==j).any():
                         logger.debug('A forecast for {} already exists'.format(j))
+                        logger.debug('This is item {} of {}'.format(item_counter, total_items))
+                        item_counter += 1
 
                     # if it doesn't exist, use the best_params to create forecast
                     else:
                         logger.debug('Creating forecast for {}'.format(j))
+                        logger.debug('This is item {} of {}'.format(item_counter, total_items))
+                        item_counter += 1
 
                         model_params = best_params[(best_params.state==state) & (best_params.cat_id==cat) & (best_params.i==i)].params.to_dict()
                         key, params = model_params.popitem()
@@ -109,7 +121,7 @@ for state in states:
                         forecast = predict_lgb(X, y, merge_df, ast.literal_eval(params), ind)
 
                         row_contents = [i, j, str(forecast)]
-                        with open('../data/processed/item_forecast.csv', 'a') as fd:
+                        with open(forecast_path, 'a') as fd:
                             wr = csv.writer(fd)
                             wr.writerow(row_contents)   
 
@@ -124,7 +136,7 @@ for state in states:
 
                 # append best parameter results
                 row_contents = [str(state), str(cat), str(i), str(params)]
-                with open(data_path / 'processed/item_best_params.csv', 'a') as fd:
+                with open(params_path, 'a') as fd:
                     wr = csv.writer(fd)
                     wr.writerow(row_contents)
 
@@ -132,14 +144,19 @@ for state in states:
 
                     if (successful.id==j).any():
                         logger.debug('A forecast for {} already exists'.format(j))
+                        logger.debug('This is item {} of {}'.format(item_counter, total_items))
+                        item_counter += 1
 
                     else:
                         logger.debug('Creating forecast for {}'.format(j))
+                        logger.debug('This is item {} of {}'.format(item_counter, total_items))
+                        item_counter += 1
+
                         merge_df, etl_df = etl(sales_master, calendar, sell, [j], level, ind)
                         X, y = over_sample(etl_df, run)
                         forecast = predict_lgb(X, y, merge_df, params, ind)
 
                         row_contents = [i, j, str(forecast)]
-                        with open('../data/processed/item_forecast.csv', 'a') as fd:
+                        with open(forecast_path.csv, 'a') as fd:
                             wr = csv.writer(fd)
                             wr.writerow(row_contents)

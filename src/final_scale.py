@@ -28,7 +28,7 @@ def expand(df, level):
     return df
 
 
-# same group_level strata
+# same group_level strata from group_level.py
 list_of_segments = [
     ['state_id'],
     ['state_id','store_id'],
@@ -67,7 +67,7 @@ for seg in list_of_segments:
 
 
 def scale_data(dfu, dfl, seg2, seg1_d):
-    # dfl refers to current segment level and dfu refers to the one above. If dfl = df2 then dfu = df1
+    # dfl (df_lower) refers to current segment level and dfu (df_upper) refers to the one above. If dfl = df2 then dfu = df1
     # same relationship with seg1 seg2. If seg2 = ['state_id','store_id'] then seg1 = ['state_id]. 
     # seg1_d just has an added 'd' to the list for merge below.
 

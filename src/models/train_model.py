@@ -8,8 +8,12 @@ from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold, train_t
 
 def train_lgb(X, y):
 
-    folds = 2 # folds for cv
+    # folds for cv
+    # should run 5 folds but condensed to save time
+    folds = 2 
 
+    # many other params to test
+    # condensed hyperparamter space due to time constraints
     params = {
         'num_leaves': np.arange(2, 50, 2).tolist(),
         'learning_rate': np.arange(.01,.3,.01).tolist(),
@@ -30,6 +34,8 @@ def train_lgb(X, y):
 
     skf = StratifiedKFold(n_splits=folds, shuffle = True)
 
+    # n_iter should be higher but, again, condensed due to time constraints
+    # other scoring criteria should be tested
     grid = RandomizedSearchCV(estimator=lgb, param_distributions=params, scoring='neg_root_mean_squared_error',
                                 n_jobs=-1, n_iter=1000, cv=skf.split(X,y.values.ravel()), verbose=1)
   

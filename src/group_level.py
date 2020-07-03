@@ -6,10 +6,9 @@ import os
 import ast
 import logging
 from paths import *
-from pathlib import Path
 from data.etl import etl, over_sample
-from models.train_model import train_lgb
-from models.predict_model import predict_lgb
+from models import train_model, predict_model
+from pathlib import Path
 from lightgbm.sklearn import LGBMRegressor, LGBMClassifier, LGBMModel
 
 
@@ -68,13 +67,13 @@ list_of_segments = [
 ]
 
 # let's loop through the list_of_segments
-# this will create forecasts for combinations at each of the 4 levels
+# this will create forecasts for all combinations at each of the 4 levels
 for i in range(len(list_of_segments)):
 
     seg_list = list_of_segments[i]
 
     # create repective csv file for appending to later
-    params_path = data_path / 'processed' / str("_".join(seg_list) + '_best_params.csv')
+    params_path = model_path / str("_".join(seg_list) + '_best_params.csv')
     forecast_path = data_path / 'processed' / str("_".join(seg_list) + '_forecast.csv')
 
     # create csv files

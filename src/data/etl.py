@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from imblearn.over_sampling import SMOTE
 
-# data transformation, save as pickle
+# data transformation
 def etl(sales_master, calendar, sell, id_list, level, ind):
 
     # create filtered sales dataset with list from above

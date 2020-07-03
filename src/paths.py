@@ -1,10 +1,11 @@
 from pathlib import Path
 
-
-home = Path.home() / 'Desktop' / 'm5_forecasting'
+# run as soon as imported
+home = Path(__file__).resolve().parents[1]
 
 log_path = home / 'logs'
 data_path = home / 'data'
+model_path = home / 'models'
 src = home / 'src'
-data_src = src / 'data'
-model_src = src / 'model'
+data_src = home / 'data'
+model_src = home / 'model'
