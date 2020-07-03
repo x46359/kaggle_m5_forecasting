@@ -10,7 +10,6 @@ from pathlib import Path
 from data.etl import etl, over_sample
 from models.train_model import train_lgb
 from models.predict_model import predict_lgb
-from lightgbm.sklearn import LGBMRegressor, LGBMClassifier, LGBMModel
 
 # logger config
 logger = logging.getLogger(__name__)

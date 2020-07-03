@@ -9,8 +9,6 @@ from paths import *
 from data.etl import etl, over_sample
 from models import train_model, predict_model
 from pathlib import Path
-from lightgbm.sklearn import LGBMRegressor, LGBMClassifier, LGBMModel
-
 
 # logger config
 logger = logging.getLogger(__name__)

@@ -48,7 +48,9 @@ python ./src/final_scale.py
     |   ├── group_level.py          <- Creates forecasts for group/strata (@ state, store, category, and department levels)
     |   ├── item_level.py           <- Creates forecasts for all items
     |   ├── final_scale.py          <- Hierarchical scaling (state --> state/store --> state/store/category --> 
-                                       state/store/category/dept --> item
+    |   |                              state/store/category/dept --> item
+    |   ├── compare_models.py       <- Work in progress. Wanted to learn LSTM and see if it produced better results. Will need 
+                                       gpu to run this module. Even then, it'll take a significant amount of time.
 --------
 
 <p><small>Project structure based on trimmed version of <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
