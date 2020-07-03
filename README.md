@@ -1,15 +1,15 @@
-# m5_forecasting
+m5_forecasting
 ==============================
 
-## Project Name
-### Kaggle competition forecasting item sales for Walmart
+Project Name
+Kaggle competition forecasting item sales for Walmart
 
-## Project Overview
-### *Use hierarchical sales data from Walmart to forecast daily sales for next 28 days.
-### *More details https://www.kaggle.com/c/m5-forecasting-accuracy/overview/description
-### *Hierarchical modeling using lgbm at pre-defined strata
+#### Project Overview
+- Use hierarchical sales data from Walmart to forecast daily sales for next 28 days.
+- More details https://www.kaggle.com/c/m5-forecasting-accuracy/overview/description
+- Hierarchical modeling using lgbm at pre-defined strata
 
-## Run order:
+#### Run order:
 
 ```
 python ./src/group_level.py 
@@ -17,7 +17,7 @@ python ./src/item_level.py
 python ./src/final_scale.py
 ```
 
-### Project Organization
+#### Project Organization
 ------------
 
     ├── LICENSE
