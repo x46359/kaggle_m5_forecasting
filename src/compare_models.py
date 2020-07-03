@@ -45,7 +45,7 @@ merge_df, etl_df = etl(sales_master, calendar, sell, [j], level, ind)
 # train, save lstm model, create forecast
 window = 28
 epochs = 50
-num_layers = 3
+num_layers = 2
 
 lstm_model = train_lstm(etl_df, ind, epochs, num_layers, window)
 torch.save(lstm_model.state_dict(), model_path / 'lstm_model.pth')

@@ -59,7 +59,7 @@ def predict_lstm(df, ind, num_layers, train_window, model_path):
 
     size = train.shape[1]
 
-    model = LSTM(input_size=size, hidden_size=200, batch_size=1, output_size=1, num_layers=1)
+    model = LSTM(input_size=size, hidden_size=200, batch_size=1, output_size=1, num_layers=num_layers)
     model.load_state_dict(torch.load(model_path / 'lstm_model.pth'))
     model.eval()
 
