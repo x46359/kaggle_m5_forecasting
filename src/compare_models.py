@@ -47,8 +47,8 @@ window = 28
 epochs = 50
 num_layers = 2
 
-lstm_model = train_lstm(etl_df, ind, epochs, num_layers, window)
-torch.save(lstm_model.state_dict(), model_path / 'lstm_model.pth')
+# lstm_model = train_lstm(etl_df, ind, epochs, num_layers, window)
+# torch.save(lstm_model.state_dict(), model_path / 'lstm_model.pth')
 forecast_lstm = predict_lstm(etl_df, ind, num_layers, window, model_path)
 
 

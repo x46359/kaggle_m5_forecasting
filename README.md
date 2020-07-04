@@ -1,6 +1,13 @@
 ### m5_forecasting
 ==============================
 
+#### Project Caveats
+- This is my first ever competition and github repo ... so be critical. I know a lot of mistakes were made so
+  constructive criticism/feedback is much appreciated.
+- There are a lot of areas for improvement. The MAIN objective of this was for me to learn. 
+- Thanks in advance!
+
+
 
 #### Project Overview
 - Use hierarchical sales data from Walmart to forecast daily sales for next 28 days.
@@ -42,7 +49,8 @@ python ./src/final_scale.py
     │   ├── models                  <- Scripts to train models and then use trained models to make
     │   │   │                          predictions
     │   │   ├── predict_model.py    <- Make predictions using defined model parameters
-    │   │   └── train_model.py      <- Hyperparameter runing using RandomizedSearchCV
+    │   │   ├── train_model.py      <- Hyperparameter runing using RandomizedSearchCV
+    |   |   └── lstm_class.py       <- Work in progress. Attempt to incorporate/learn LSTM.
     |   |
     |   ├── paths.py                <- Generates relative file paths
     |   ├── group_level.py          <- Creates forecasts for group/strata (@ state, store, category, and department levels)
